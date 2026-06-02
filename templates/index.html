@@ -1,403 +1,568 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>건강 포털</title>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f1f5f9;font-family:Arial,sans-serif;overflow:hidden}
 
-body{
-    margin:0;
-    background:#f1f5f9;
-    font-family:Arial;
-    overflow:hidden;
+.portal{
+  display:grid;
+  grid-template-columns:0.75fr 1.25fr;
+  gap:16px;
+  padding:16px;
+  height:100vh;
 }
 
-/* 전체 */
-.container{
+.left{display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.right{height:100%}
 
-    display:grid;
-
-    grid-template-columns:
-        0.7fr 1.3fr;
-
-    gap:20px;
-
-    padding:20px;
-
-    height:100vh;
-
-    box-sizing:border-box;
-}
-
-/* 왼쪽 */
-.left-side{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:20px;
-}
-
-/* 오른쪽 */
-.right-side{
-    height:100%;
-}
-
-/* 카드 */
 .card{
+  background:white;
+  border-radius:16px;
+  border:0.5px solid #e2e8f0;
+  padding:16px;
+  overflow:hidden;
+}
+.left .card{flex:1;display:flex;flex-direction:column}
+.right .card{height:100%;display:flex;flex-direction:column}
 
-    background:white;
+.card-title{
+  font-size:13px;
+  font-weight:500;
+  color:#64748b;
+  letter-spacing:.03em;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.card-title i{font-size:15px}
 
-    border-radius:20px;
-
-    padding:20px;
-
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+/* ── 미세먼지 ── */
+.air-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1}
+.air-item{background:#f8fafc;border-radius:10px;padding:10px 12px}
+.air-station{font-size:11px;color:#94a3b8;margin-bottom:4px}
+.air-val{font-size:18px;font-weight:500;color:#1e293b}
+.air-unit{font-size:12px;font-weight:400;color:#94a3b8}
+.air-label{font-size:11px;color:#64748b;margin-top:2px}
+.air-comment{
+  margin-top:10px;
+  padding:10px 12px;
+  background:#EFF6FF;
+  border-radius:10px;
+  font-size:12px;
+  color:#1d4ed8;
+  line-height:1.5;
 }
 
-/* 작은 카드 */
-.small-card{
-    flex:1;
+.badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:500;
+  padding:2px 8px;
+  border-radius:20px;
+  margin-top:4px;
 }
+.badge-good  {background:#EAF3DE;color:#3B6D11}
+.badge-normal{background:#FAEEDA;color:#854F0B}
+.badge-bad   {background:#FAECE7;color:#993C1D}
+.badge-worse {background:#FCEBEB;color:#A32D2D}
 
-/* 큰 카드 */
-.big-card{
-    height:calc(100vh - 40px);
+/* ── 건강 정보 ── */
+.tips-list{display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
+.tip-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 12px;
+  background:#f8fafc;
+  border-radius:10px;
 }
-
-/* 제목 */
-h2{
-    margin-top:0;
+.tip-icon{
+  width:28px;height:28px;
+  border-radius:8px;
+  background:#EEEDFE;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
 }
+.tip-icon i{font-size:14px;color:#534AB7}
+.tip-title{font-size:12px;font-weight:500;color:#1e293b}
+.tip-text{font-size:11px;color:#64748b;line-height:1.5;margin-top:2px}
 
-/* 입력창 */
-input{
-
-    width:70%;
-
-    padding:15px;
-
-    border-radius:10px;
-
-    border:1px solid #ccc;
-
-    font-size:16px;
+/* ── 감염병 ── */
+.disease-list{display:flex;flex-direction:column;gap:6px;flex:1;overflow:auto}
+.disease-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 12px;
+  background:#f8fafc;
+  border-radius:10px;
 }
+.disease-name{font-size:12px;font-weight:500;color:#1e293b}
+.disease-count{font-size:12px;color:#64748b}
+.disease-trend{font-size:11px;padding:2px 8px;border-radius:20px}
+.trend-up  {background:#FCEBEB;color:#A32D2D}
+.trend-down{background:#EAF3DE;color:#3B6D11}
+.trend-same{background:#f1f5f9;color:#64748b}
 
-/* 버튼 */
-button{
-
-    padding:13px 20px;
-
-    border:none;
-
-    background:#2563eb;
-
-    color:white;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:15px;
+/* ── 탭 ── */
+.tabs{
+  display:flex;
+  gap:6px;
+  margin-bottom:16px;
+  border-bottom:0.5px solid #e2e8f0;
+  padding-bottom:12px;
 }
-
-/* 탭 버튼 */
-.tab-buttons{
-    margin-bottom:20px;
+.tab-btn{
+  padding:7px 16px;
+  border-radius:10px;
+  border:0.5px solid #cbd5e1;
+  background:transparent;
+  cursor:pointer;
+  font-size:13px;
+  color:#64748b;
+  font-family:Arial,sans-serif;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:all .15s;
 }
+.tab-btn:hover{background:#f8fafc}
+.tab-btn.active{background:#1e3a8a;color:white;border-color:#1e3a8a}
+.tab-btn i{font-size:15px}
 
-.tab-buttons button{
-    margin-right:10px;
+/* ── 섹션 ── */
+.section{display:none;flex-direction:column;flex:1;overflow:hidden}
+.section.active{display:flex}
+
+/* ── 검색 입력 ── */
+.search-row{display:flex;gap:8px;margin-bottom:16px}
+.search-row input{
+  flex:1;
+  padding:10px 14px;
+  border-radius:10px;
+  border:0.5px solid #cbd5e1;
+  background:#f8fafc;
+  color:#1e293b;
+  font-size:14px;
+  font-family:Arial,sans-serif;
+  outline:none;
+  transition:border-color .15s, box-shadow .15s;
 }
-
-/* 뉴스 카드 */
-.news-card{
-
-    background:#f8fafc;
-
-    padding:15px;
-
-    border-radius:12px;
-
-    margin-top:15px;
+.search-row input:focus{
+  border-color:#378ADD;
+  box-shadow:0 0 0 2px rgba(55,138,221,.15);
 }
+.search-row input::placeholder{color:#94a3b8}
 
-/* 결과 */
-.result{
-
-    margin-top:20px;
-
-    white-space:pre-wrap;
-
-    line-height:1.8;
-
-    overflow-y:auto;
-
-    max-height:500px;
+.search-btn{
+  padding:10px 18px;
+  background:#1e3a8a;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:13px;
+  font-family:Arial,sans-serif;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  transition:background .15s;
 }
+.search-btn:hover{background:#1e40af}
+.search-btn i{font-size:15px}
 
-/* 숨김 */
-.hidden{
-    display:none;
+/* ── 결과 박스 ── */
+.result-box{
+  flex:1;
+  overflow-y:auto;
+  background:#f8fafc;
+  border-radius:10px;
+  padding:14px;
+  font-size:13px;
+  color:#1e293b;
+  line-height:1.8;
+  white-space:pre-wrap;
 }
+.result-empty{
+  color:#94a3b8;
+  text-align:center;
+  margin-top:40px;
+  font-size:13px;
+}
+.result-empty i{font-size:32px;display:block;margin-bottom:8px;opacity:.4}
 
+/* ── 면책 문구 ── */
+.disclaimer{
+  margin-top:10px;
+  font-size:11px;
+  color:#94a3b8;
+  padding:8px 12px;
+  background:#f8fafc;
+  border-radius:8px;
+  border-left:2px solid #e2e8f0;
+}
+.disclaimer i{font-size:12px;vertical-align:-1px;margin-right:4px}
+
+/* ── 로딩 ── */
+.loading{color:#64748b;font-size:13px;text-align:center;margin-top:40px}
+.loading i{font-size:24px;display:block;margin-bottom:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite}
 </style>
-
 </head>
 <body>
 
-<div class="container">
+<div class="portal">
 
-    <!-- 왼쪽 -->
-    <div class="left-side">
+  <!-- ══════ 왼쪽 ══════ -->
+  <div class="left">
 
-        <!-- 건강 정보 -->
-        <div class="card small-card">
-
-            <h2>📰 오늘의 건강 정보</h2>
-
-            <div class="news-card">
-
-                <h3>충분한 수면</h3>
-
-                <p>
-                    하루 7~8시간 수면은
-                    면역력 유지에 좋습니다.
-                </p>
-
-            </div>
-
-            <div class="news-card">
-
-                <h3>수분 섭취</h3>
-
-                <p>
-                    물을 자주 마시면
-                    건강 유지에 도움이 됩니다.
-                </p>
-
-            </div>
-
-            <div class="news-card">
-
-                <h3>가벼운 운동</h3>
-
-                <p>
-                    하루 30분 걷기는
-                    건강 관리에 효과적입니다.
-                </p>
-
-            </div>
-
+    <!-- 미세먼지 -->
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-wind"></i> 오늘의 미세먼지
+      </div>
+      <div class="air-grid" id="airGrid">
+        <div class="air-item" style="grid-column:1/-1">
+          <div class="air-station">불러오는 중...</div>
         </div>
-
-        <!-- 미세먼지 -->
-        <div class="card small-card">
-
-            <h2>🌫 오늘의 미세먼지</h2>
-
-            <div class="news-card">
-
-                <h3>서울</h3>
-
-                <p>미세먼지: 보통</p>
-
-                <p>초미세먼지: 좋음</p>
-
-            </div>
-
-            <div class="news-card">
-
-                <h3>건강 팁</h3>
-
-                <p>
-                    외출 후 손 씻기를 권장합니다.
-                </p>
-
-            </div>
-
-        </div>
-
+      </div>
+      <div class="air-comment" id="airComment" style="display:none"></div>
     </div>
 
-    <!-- 오른쪽 -->
-    <div class="right-side">
-
-        <div class="card big-card">
-
-            <!-- 탭 -->
-            <div class="tab-buttons">
-
-                <button onclick="showSearch()">
-                    💊 약 검색
-                </button>
-
-                <button onclick="showRecommend()">
-                    🤖 약 추천
-                </button>
-
-            </div>
-
-            <!-- 약 검색 -->
-            <div id="searchSection">
-
-                <h2>💊 약 검색</h2>
-
-                <input
-                    type="text"
-                    id="medicineInput"
-                    placeholder="약 이름 입력"
-                >
-
-                <button onclick="medicineSearch()">
-                    검색
-                </button>
-
-                <div
-                    class="result"
-                    id="medicineResult"
-                ></div>
-
-            </div>
-
-            <!-- 약 추천 -->
-            <div
-                id="recommendSection"
-                class="hidden"
-            >
-
-                <h2>🤖 약 추천</h2>
-
-                <input
-                    type="text"
-                    id="recommendInput"
-                    placeholder="예: 두통, 근육통"
-                >
-
-                <button onclick="recommendMedicine()">
-                    추천
-                </button>
-
-                <div
-                    class="result"
-                    id="recommendResult"
-                ></div>
-
-            </div>
-
-        </div>
-
+    <!-- 건강 정보 -->
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-heart-rate-monitor"></i> 오늘의 건강 정보
+      </div>
+      <div class="tips-list" id="tipsList">
+        <div style="color:#94a3b8;font-size:12px">불러오는 중...</div>
+      </div>
     </div>
 
+    <!-- 감염병 현황 -->
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-virus"></i> 감염병 현황
+      </div>
+      <div class="disease-list" id="diseaseList">
+        <div style="color:#94a3b8;font-size:12px">불러오는 중...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════ 오른쪽 ══════ -->
+  <div class="right">
+    <div class="card">
+
+      <!-- 탭 -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('search')" id="tab-search">
+          <i class="ti ti-pill"></i> 약 이름 검색
+        </button>
+        <button class="tab-btn" onclick="switchTab('recommend')" id="tab-recommend">
+          <i class="ti ti-robot"></i> AI 증상 추천
+        </button>
+      </div>
+
+      <!-- 약 이름 검색 섹션 -->
+      <div class="section active" id="section-search">
+        <div class="search-row">
+          <input
+            type="text"
+            id="medicineInput"
+            placeholder="약 이름을 입력하세요 (예: 타이레놀)"
+            onkeydown="if(event.key==='Enter') medicineSearch()"
+          >
+          <button class="search-btn" onclick="medicineSearch()">
+            <i class="ti ti-search"></i> 검색
+          </button>
+        </div>
+        <div class="result-box" id="medicineResult">
+          <div class="result-empty">
+            <i class="ti ti-pill"></i>
+            약 이름을 입력하고 검색해보세요
+          </div>
+        </div>
+        <div class="disclaimer">
+          <i class="ti ti-info-circle"></i>
+          본 정보는 참고용입니다. 의약품 복용 전 반드시 전문가(의사·약사)와 상담하세요.
+        </div>
+      </div>
+
+      <!-- AI 증상 추천 섹션 -->
+      <div class="section" id="section-recommend">
+        <div class="search-row">
+          <input
+            type="text"
+            id="recommendInput"
+            placeholder="증상을 입력하세요 (예: 두통, 소화불량)"
+            onkeydown="if(event.key==='Enter') recommendMedicine()"
+          >
+          <button class="search-btn" onclick="recommendMedicine()">
+            <i class="ti ti-sparkles"></i> AI 추천
+          </button>
+        </div>
+        <div class="result-box" id="recommendResult">
+          <div class="result-empty">
+            <i class="ti ti-robot"></i>
+            증상을 입력하면 AI가 약을 추천해드려요
+          </div>
+        </div>
+        <div class="disclaimer">
+          <i class="ti ti-info-circle"></i>
+          본 정보는 참고용입니다. 의약품 복용 전 반드시 전문가(의사·약사)와 상담하세요.
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <script>
+// ====================================
+// 데이터 상수
+// ====================================
+const TIPS = [
+  {title:"수면 관리",    tip:"오늘은 일찍 자고 푹 쉬어보세요. 면역력이 쑥쑥 올라갑니다!",       icon:"ti-moon"},
+  {title:"수분 섭취",    tip:"물 한 잔으로 시작하는 하루, 몸이 훨씬 가벼워져요.",               icon:"ti-droplet"},
+  {title:"균형 잡힌 식사",tip:"채소·단백질·곡물, 골고루 먹는 게 최고의 보약!",                  icon:"ti-salad"},
+  {title:"운동 습관",    tip:"30분만 걸어도 기분이 달라집니다.",                                icon:"ti-run"},
+  {title:"스트레스 관리",tip:"깊게 숨 쉬고, 마음을 가볍게 해보세요.",                           icon:"ti-leaf"},
+  {title:"손 씻기",      tip:"작은 습관이 큰 예방! 손 씻기는 최고의 백신입니다.",               icon:"ti-wash"},
+  {title:"비타민 섭취",  tip:"비타민 C 하나로 피로가 훨씬 덜해져요.",                           icon:"ti-apple"},
+  {title:"자세 교정",    tip:"허리를 쭉 펴고 앉아보세요. 몸이 훨씬 편안해집니다.",              icon:"ti-armchair"},
+  {title:"정기 검진",    tip:"조기 발견이 최고의 치료! 검진은 꼭 챙기세요.",                    icon:"ti-stethoscope"},
+  {title:"눈 건강",      tip:"20분마다 창밖을 바라보세요. 눈이 훨씬 편안해집니다.",             icon:"ti-eye"},
+  {title:"명상",         tip:"5분 명상으로 하루가 훨씬 가벼워집니다.",                          icon:"ti-yoga"},
+  {title:"햇빛 쬐기",   tip:"햇살은 비타민 D와 기분을 동시에 선물합니다.",                     icon:"ti-sun"},
+  {title:"금연",         tip:"오늘 한 개비 덜 피우는 게 내일의 건강을 지킵니다.",               icon:"ti-smoking-no"},
+  {title:"아침 식사",   tip:"아침식사는 하루 에너지의 시작!",                                   icon:"ti-bowl-spoon"},
+  {title:"스트레칭",     tip:"목과 어깨를 쭉 늘려주면 피로가 풀려요.",                          icon:"ti-activity"},
+];
+
+const FALLBACK_DISEASES = [
+  {name:"인플루엔자",       count:"2,847명", trend:"up"},
+  {name:"코로나19",         count:"1,203명", trend:"down"},
+  {name:"수두",             count:"438명",   trend:"same"},
+  {name:"유행성이하선염",   count:"127명",   trend:"up"},
+  {name:"성홍열",           count:"89명",    trend:"down"},
+];
+
+const AIR_COMMENTS = {
+  "좋음":    ["오늘은 공기가 맑습니다. 외출 후 손 씻기를 잊지 마세요.",
+              "야외 활동하기 좋은 날입니다. 돌아와서 물 한 잔으로 몸을 챙겨보세요.",
+              "맑은 공기 덕분에 기분이 한결 가볍습니다. 산책 후 가벼운 스트레칭을 해보세요."],
+  "보통":    ["큰 문제는 없지만 민감한 분들은 마스크를 챙기는 것이 좋습니다.",
+              "공기가 무난한 편입니다. 환기는 짧게 하고 외출 후 세수를 해주세요.",
+              "보통 수준이지만 호흡기 약한 분들은 주의가 필요합니다."],
+  "나쁨":    ["외출 시 KF80 이상 마스크를 착용하는 것이 좋습니다. 귀가 후 코와 입을 헹꿔주세요.",
+              "오늘은 창문을 닫고 실내 공기를 지키는 것이 필요합니다. 물을 자주 마시면 도움이 됩니다.",
+              "호흡기 질환이 있는 분들은 외출을 줄이고 실내에서 가벼운 운동을 해보세요."],
+  "매우나쁨":["실내 생활을 권장합니다. 어린이와 노인은 특히 주의가 필요합니다.",
+              "공기가 많이 탁합니다. 외출은 피하고 창문을 닫아두는 것이 좋습니다.",
+              "기관지나 심혈관 질환 환자는 오늘 각별히 조심하세요. 따뜻한 차로 목을 보호해보세요."],
+};
+
 
 // ====================================
-// 약 검색 탭
+// 유틸
 // ====================================
-function showSearch(){
+function getGrade(pm10) {
+  const v = parseInt(pm10) || 0;
+  if (v <= 30)  return "좋음";
+  if (v <= 80)  return "보통";
+  if (v <= 150) return "나쁨";
+  return "매우나쁨";
+}
 
-    document.getElementById(
-        "searchSection"
-    ).classList.remove("hidden");
+function getBadgeClass(g) {
+  return g === "좋음" ? "badge-good"
+       : g === "보통" ? "badge-normal"
+       : g === "나쁨" ? "badge-bad"
+       : "badge-worse";
+}
 
-    document.getElementById(
-        "recommendSection"
-    ).classList.add("hidden");
+function randPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 
 // ====================================
-// 약 추천 탭
+// 미세먼지 로드
 // ====================================
-function showRecommend(){
+function loadAir() {
+  fetch("/air").then(r => r.json()).then(d => {
+    if (!d.success) throw new Error();
+    const grid = document.getElementById("airGrid");
+    grid.innerHTML = "";
+    let firstGrade = "보통";
 
-    document.getElementById(
-        "searchSection"
-    ).classList.add("hidden");
+    d.air.slice(0, 4).forEach((item, i) => {
+      const grade = item.grade || getGrade(item.pm10);
+      if (i === 0) firstGrade = grade;
+      grid.innerHTML += `
+        <div class="air-item">
+          <div class="air-station">${item.station}</div>
+          <div class="air-val">${item.pm10}<span class="air-unit"> ㎍</span></div>
+          <div class="air-label">초미세먼지 ${item.pm25}㎍</div>
+          <span class="badge ${getBadgeClass(grade)}">${grade}</span>
+        </div>`;
+    });
 
-    document.getElementById(
-        "recommendSection"
-    ).classList.remove("hidden");
+    const commentBox = document.getElementById("airComment");
+    commentBox.textContent = randPick(AIR_COMMENTS[firstGrade] || AIR_COMMENTS["보통"]);
+    commentBox.style.display = "block";
+
+  }).catch(() => {
+    document.getElementById("airGrid").innerHTML =
+      `<div class="air-item" style="grid-column:1/-1">
+        <div class="air-station" style="color:#ef4444">데이터를 불러올 수 없습니다</div>
+       </div>`;
+  });
 }
 
 
 // ====================================
-// 약 검색
+// 건강 정보 로드
 // ====================================
-async function medicineSearch(){
+function renderTips(tips) {
+  const list = document.getElementById("tipsList");
+  list.innerHTML = "";
+  tips.forEach(t => {
+    const match = TIPS.find(x => x.title === t.title);
+    const icon  = match ? match.icon : "ti-heart";
+    list.innerHTML += `
+      <div class="tip-item">
+        <div class="tip-icon"><i class="ti ${icon}"></i></div>
+        <div>
+          <div class="tip-title">${t.title}</div>
+          <div class="tip-text">${t.tip}</div>
+        </div>
+      </div>`;
+  });
+}
 
-    const medicine =
-        document.getElementById(
-            "medicineInput"
-        ).value;
-
-    const response =
-        await fetch("/medicine-search", {
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                medicine:medicine
-            })
-
-        });
-
-    const data =
-        await response.json();
-
-    document.getElementById(
-        "medicineResult"
-    ).innerHTML = data.result;
+function loadTips() {
+  fetch("/health-tips").then(r => r.json()).then(d => {
+    if (!d.success) throw new Error();
+    renderTips(d.tips);
+  }).catch(() => {
+    const sample = [...TIPS].sort(() => Math.random() - .5).slice(0, 3);
+    renderTips(sample);
+  });
 }
 
 
 // ====================================
-// 약 추천
+// 감염병 현황 로드
 // ====================================
-async function recommendMedicine(){
-
-    const symptom =
-        document.getElementById(
-            "recommendInput"
-        ).value;
-
-    const response =
-        await fetch("/medicine-recommend", {
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                symptom:symptom
-            })
-
-        });
-
-    const data =
-        await response.json();
-
-    document.getElementById(
-        "recommendResult"
-    ).innerHTML = data.result;
+function renderDiseases(list) {
+  const el = document.getElementById("diseaseList");
+  el.innerHTML = "";
+  list.forEach(item => {
+    const trendClass = item.trend === "up"   ? "trend-up"
+                     : item.trend === "down" ? "trend-down"
+                     : "trend-same";
+    const trendIcon  = item.trend === "up"   ? "ti-trending-up"
+                     : item.trend === "down" ? "ti-trending-down"
+                     : "ti-minus";
+    const trendLabel = item.trend === "up"   ? "증가"
+                     : item.trend === "down" ? "감소"
+                     : "유지";
+    el.innerHTML += `
+      <div class="disease-item">
+        <div class="disease-name">${item.name}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="disease-count">${item.count}</div>
+          <span class="disease-trend ${trendClass}">
+            <i class="ti ${trendIcon}" style="font-size:11px;vertical-align:-1px"></i>
+            ${trendLabel}
+          </span>
+        </div>
+      </div>`;
+  });
 }
 
+function loadDiseases() {
+  fetch("/infectious-disease").then(r => r.json()).then(d => {
+    if (!d.success) throw new Error();
+    renderDiseases(d.diseases);
+  }).catch(() => {
+    renderDiseases(FALLBACK_DISEASES);
+  });
+}
+
+
+// ====================================
+// 탭 전환
+// ====================================
+function switchTab(tab) {
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById("tab-" + tab).classList.add("active");
+  document.getElementById("section-" + tab).classList.add("active");
+}
+
+
+// ====================================
+// 약 이름 검색
+// ====================================
+async function medicineSearch() {
+  const medicine = document.getElementById("medicineInput").value.trim();
+  if (!medicine) return;
+  const box = document.getElementById("medicineResult");
+  box.innerHTML = `<div class="loading"><i class="ti ti-loader-2 spin"></i>검색 중...</div>`;
+  try {
+    const r = await fetch("/medicine-search", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({medicine})
+    });
+    const d = await r.json();
+    box.textContent = d.success ? d.result : "❌ " + d.message;
+  } catch(e) {
+    box.textContent = "오류가 발생했습니다.";
+  }
+}
+
+
+// ====================================
+// AI 증상 추천
+// ====================================
+async function recommendMedicine() {
+  const symptom = document.getElementById("recommendInput").value.trim();
+  if (!symptom) return;
+  const box = document.getElementById("recommendResult");
+  box.innerHTML = `<div class="loading"><i class="ti ti-loader-2 spin"></i>AI가 분석 중...</div>`;
+  try {
+    const r = await fetch("/medicine-recommend", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({symptom})
+    });
+    const d = await r.json();
+    box.textContent = d.success ? d.result : "❌ " + d.message;
+  } catch(e) {
+    box.textContent = "오류가 발생했습니다.";
+  }
+}
+
+
+// ====================================
+// 초기 로드
+// ====================================
+loadAir();
+loadTips();
+loadDiseases();
 </script>
 
 </body>
