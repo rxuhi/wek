@@ -117,37 +117,32 @@ def medicine_search():
 # ==================================================
 @app.route("/medicine-recommend", methods=["POST"])
 def medicine_recommend():
-
     try:
-
         data = request.get_json()
+        symptom = data.get("symptom")  # ← 이게 있어야 함
 
-        symptom = data.get("symptom")
+        prompt = f"""
+사용자 증상: '{symptom}'
 
-        result_text = f"""
-'{symptom}' 관련 일반적인 의약품 종류입니다.
+오늘 날짜 기준으로 이 증상에 맞는 일반의약품을 추천해주세요.
+매번 다른 관점으로 답변해주세요.
 
-- 진통제
-- 소염제
-- 해열제
-- 연고류
+다음 형식으로 답해주세요:
 
-증상이 심할 경우 병원 또는 약국 상담을 권장합니다.
+1. 추천 약품 이름 (성분명 포함)
+2. 이 약이 도움이 되는 이유
+3. 복용 시 주의할 점
+4. 이런 경우엔 병원 방문 필요
+
+추천 약품은 매번 다양하게 제시해주세요. 전문적이지만 쉽게 설명해주세요.
 """
+        ai_result = call_groq(prompt)
+        final_result = ai_result + f"\n\n{DISCLAIMER}"
 
-        return jsonify({
-            "success": True,
-            "result": result_text
-        })
+        return jsonify({"success": True, "result": final_result})
 
     except Exception as e:
-
-        return jsonify({
-            "success": False,
-            "message": str(e)
-        })
-
-
+        return jsonify({"success": False, "message": str(e)})
 # ==================================================
 # 건강 뉴스
 # ==================================================
