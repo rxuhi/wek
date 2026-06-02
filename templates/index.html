@@ -517,21 +517,29 @@ function switchTab(tab) {
 // 약 이름 검색
 // ====================================
 async function medicineSearch() {
-  const medicine = document.getElementById("medicineInput").value.trim();
-  if (!medicine) return;
-  const box = document.getElementById("medicineResult");
-  box.innerHTML = `<div class="loading"><i class="ti ti-loader-2 spin"></i>검색 중...</div>`;
-  try {
-    const r = await fetch("/medicine-search", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({medicine})
-    });
-    const d = await r.json();
-    box.textContent = d.success ? d.result : "❌ " + d.message;
-  } catch(e) {
-    box.textContent = "오류가 발생했습니다.";
-  }
+    const medicine = document.getElementById("medicineInput").value.trim();
+    if (!medicine) return;
+    const box = document.getElementById("medicineResult");
+    box.innerHTML = `<div class="loading"><i class="ti ti-loader-2 spin"></i>검색 중...</div>`;
+    try {
+        const r = await fetch("/medicine-search", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({medicine})
+        });
+        const d = await r.json();
+        if (d.success) {
+            let html = d.result
+                .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+                .replace(/\*(.+?)\*/g, "<em>$1</em>")
+                .replace(/\n/g, "<br>");
+            box.innerHTML = html;
+        } else {
+            box.textContent = "❌ " + d.message;
+        }
+    } catch(e) {
+        box.textContent = "오류가 발생했습니다.";
+    }
 }
 
 
@@ -539,21 +547,30 @@ async function medicineSearch() {
 // AI 증상 추천
 // ====================================
 async function recommendMedicine() {
-  const symptom = document.getElementById("recommendInput").value.trim();
-  if (!symptom) return;
-  const box = document.getElementById("recommendResult");
-  box.innerHTML = `<div class="loading"><i class="ti ti-loader-2 spin"></i>AI가 분석 중...</div>`;
-  try {
-    const r = await fetch("/medicine-recommend", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({symptom})
-    });
-    const d = await r.json();
-    box.textContent = d.success ? d.result : "❌ " + d.message;
-  } catch(e) {
-    box.textContent = "오류가 발생했습니다.";
-  }
+    const symptom = document.getElementById("recommendInput").value.trim();
+    if (!symptom) return;
+    const box = document.getElementById("recommendResult");
+    box.innerHTML = `<div class="loading"><i class="ti ti-loader-2 spin"></i>AI가 분석 중...</div>`;
+    try {
+        const r = await fetch("/medicine-recommend", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({symptom})
+        });
+        const d = await r.json();
+        if (d.success) {
+            // 마크다운 → HTML 변환
+            let html = d.result
+                .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")  // **굵게**
+                .replace(/\*(.+?)\*/g, "<em>$1</em>")              // *기울임*
+                .replace(/\n/g, "<br>");                            // 줄바꿈
+            box.innerHTML = html;
+        } else {
+            box.textContent = "❌ " + d.message;
+        }
+    } catch(e) {
+        box.textContent = "오류가 발생했습니다.";
+    }
 }
 
 
