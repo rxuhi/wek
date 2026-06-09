@@ -193,6 +193,7 @@ def medicine_search():
 {warning}
 
 이모지를 활용해서 보기 좋게, 핵심만 간결하게 요약해 주세요.
+반드시 한글로만 작성하세요. 한자나 외국어는 절대 쓰지 마세요.
 """
         ai_summary = call_groq(prompt)
         final_result = ai_summary + f"\n\n{DISCLAIMER}"
@@ -232,6 +233,7 @@ def medicine_recommend():
 
 실제 약국에서 처방전 없이 구매 가능한 약 위주로 추천해주세요.
 전문적이지만 쉽게 설명해주세요.
+반드시 한글로만 작성하세요. 한자나 외국어는 절대 쓰지 마세요.
 """
         ai_result = call_groq(prompt)
         final_result = ai_result + f"\n\n{DISCLAIMER}"
