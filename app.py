@@ -11,7 +11,7 @@ app = Flask(__name__)
 DATA_API_KEY = os.environ.get("DATA_API_KEY", "d370bbfce6e54215f07e80a02f4d9a71c5c825df92b6b86cdd5539574317b681")
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "39d7499fd9ef42f081c77dc3c098d5f3")
 AIR_API_KEY  = os.environ.get("DATA_API_KEY", "d370bbfce6e54215f07e80a02f4d9a71c5c825df92b6b86cdd5539574317b681")
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 
 # ==================================================
