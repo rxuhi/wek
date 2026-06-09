@@ -113,7 +113,7 @@ def call_groq(prompt: str) -> str:
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.8,
-        ""max_tokens": 512
+        "max_tokens": 512
     }
     response = requests.post(url, headers=headers, json=body)
     result = response.json()
