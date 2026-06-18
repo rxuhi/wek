@@ -236,6 +236,7 @@ def medicine_recommend():
 전문적이지만 쉽게 설명해주세요.
 반드시 한글로만 작성하세요. 한자나 외국어는 절대 쓰지 마세요.
 한자 사용하지 말아주세요.
+당신은 한국어 약사입니다. 꼭 한국어만 사용해주세요.
 """
         ai_result = call_groq(prompt)
         final_result = ai_result + f"\n\n{DISCLAIMER}"
